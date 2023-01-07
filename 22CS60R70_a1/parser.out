@@ -1,0 +1,626 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    POSTFIX
+    PREFIX
+
+Grammar
+
+Rule 0     S' -> assign
+Rule 1     assign -> ID EQUALS expression
+Rule 2     assign -> expression
+Rule 3     expression -> expression DOUBLE_EQUALS expression
+Rule 4     expression -> expression PLUS term
+Rule 5     expression -> expression MINUS term
+Rule 6     expression -> term
+Rule 7     term -> term TIMES factor
+Rule 8     term -> term DIVIDE factor
+Rule 9     term -> factor
+Rule 10    factor -> factor POWER factor
+Rule 11    factor -> factor MOD factor
+Rule 12    factor -> MINUS factor
+Rule 13    factor -> ID
+Rule 14    factor -> INT
+Rule 15    factor -> FLOAT
+Rule 16    factor -> LPAREN expression RPAREN
+
+Terminals, with rules where they appear
+
+DIVIDE               : 8
+DOUBLE_EQUALS        : 3
+EQUALS               : 1
+FLOAT                : 15
+ID                   : 1 13
+INT                  : 14
+LPAREN               : 16
+MINUS                : 5 12
+MOD                  : 11
+PLUS                 : 4
+POSTFIX              : 
+POWER                : 10
+PREFIX               : 
+RPAREN               : 16
+TIMES                : 7
+error                : 
+
+Nonterminals, with rules where they appear
+
+assign               : 0
+expression           : 1 2 3 3 4 5 16
+factor               : 7 8 9 10 10 11 11 12
+term                 : 4 5 6 7 8
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . assign
+    (1) assign -> . ID EQUALS expression
+    (2) assign -> . expression
+    (3) expression -> . expression DOUBLE_EQUALS expression
+    (4) expression -> . expression PLUS term
+    (5) expression -> . expression MINUS term
+    (6) expression -> . term
+    (7) term -> . term TIMES factor
+    (8) term -> . term DIVIDE factor
+    (9) term -> . factor
+    (10) factor -> . factor POWER factor
+    (11) factor -> . factor MOD factor
+    (12) factor -> . MINUS factor
+    (13) factor -> . ID
+    (14) factor -> . INT
+    (15) factor -> . FLOAT
+    (16) factor -> . LPAREN expression RPAREN
+
+    ID              shift and go to state 2
+    MINUS           shift and go to state 5
+    INT             shift and go to state 7
+    FLOAT           shift and go to state 8
+    LPAREN          shift and go to state 9
+
+    assign                         shift and go to state 1
+    expression                     shift and go to state 3
+    term                           shift and go to state 4
+    factor                         shift and go to state 6
+
+state 1
+
+    (0) S' -> assign .
+
+
+
+state 2
+
+    (1) assign -> ID . EQUALS expression
+    (13) factor -> ID .
+
+    EQUALS          shift and go to state 10
+    POWER           reduce using rule 13 (factor -> ID .)
+    MOD             reduce using rule 13 (factor -> ID .)
+    TIMES           reduce using rule 13 (factor -> ID .)
+    DIVIDE          reduce using rule 13 (factor -> ID .)
+    DOUBLE_EQUALS   reduce using rule 13 (factor -> ID .)
+    PLUS            reduce using rule 13 (factor -> ID .)
+    MINUS           reduce using rule 13 (factor -> ID .)
+    $end            reduce using rule 13 (factor -> ID .)
+
+
+state 3
+
+    (2) assign -> expression .
+    (3) expression -> expression . DOUBLE_EQUALS expression
+    (4) expression -> expression . PLUS term
+    (5) expression -> expression . MINUS term
+
+    $end            reduce using rule 2 (assign -> expression .)
+    DOUBLE_EQUALS   shift and go to state 11
+    PLUS            shift and go to state 12
+    MINUS           shift and go to state 13
+
+
+state 4
+
+    (6) expression -> term .
+    (7) term -> term . TIMES factor
+    (8) term -> term . DIVIDE factor
+
+    DOUBLE_EQUALS   reduce using rule 6 (expression -> term .)
+    PLUS            reduce using rule 6 (expression -> term .)
+    MINUS           reduce using rule 6 (expression -> term .)
+    $end            reduce using rule 6 (expression -> term .)
+    RPAREN          reduce using rule 6 (expression -> term .)
+    TIMES           shift and go to state 14
+    DIVIDE          shift and go to state 15
+
+
+state 5
+
+    (12) factor -> MINUS . factor
+    (10) factor -> . factor POWER factor
+    (11) factor -> . factor MOD factor
+    (12) factor -> . MINUS factor
+    (13) factor -> . ID
+    (14) factor -> . INT
+    (15) factor -> . FLOAT
+    (16) factor -> . LPAREN expression RPAREN
+
+    MINUS           shift and go to state 5
+    ID              shift and go to state 17
+    INT             shift and go to state 7
+    FLOAT           shift and go to state 8
+    LPAREN          shift and go to state 9
+
+    factor                         shift and go to state 16
+
+state 6
+
+    (9) term -> factor .
+    (10) factor -> factor . POWER factor
+    (11) factor -> factor . MOD factor
+
+    TIMES           reduce using rule 9 (term -> factor .)
+    DIVIDE          reduce using rule 9 (term -> factor .)
+    DOUBLE_EQUALS   reduce using rule 9 (term -> factor .)
+    PLUS            reduce using rule 9 (term -> factor .)
+    MINUS           reduce using rule 9 (term -> factor .)
+    $end            reduce using rule 9 (term -> factor .)
+    RPAREN          reduce using rule 9 (term -> factor .)
+    POWER           shift and go to state 18
+    MOD             shift and go to state 19
+
+
+state 7
+
+    (14) factor -> INT .
+
+    POWER           reduce using rule 14 (factor -> INT .)
+    MOD             reduce using rule 14 (factor -> INT .)
+    TIMES           reduce using rule 14 (factor -> INT .)
+    DIVIDE          reduce using rule 14 (factor -> INT .)
+    DOUBLE_EQUALS   reduce using rule 14 (factor -> INT .)
+    PLUS            reduce using rule 14 (factor -> INT .)
+    MINUS           reduce using rule 14 (factor -> INT .)
+    $end            reduce using rule 14 (factor -> INT .)
+    RPAREN          reduce using rule 14 (factor -> INT .)
+
+
+state 8
+
+    (15) factor -> FLOAT .
+
+    POWER           reduce using rule 15 (factor -> FLOAT .)
+    MOD             reduce using rule 15 (factor -> FLOAT .)
+    TIMES           reduce using rule 15 (factor -> FLOAT .)
+    DIVIDE          reduce using rule 15 (factor -> FLOAT .)
+    DOUBLE_EQUALS   reduce using rule 15 (factor -> FLOAT .)
+    PLUS            reduce using rule 15 (factor -> FLOAT .)
+    MINUS           reduce using rule 15 (factor -> FLOAT .)
+    $end            reduce using rule 15 (factor -> FLOAT .)
+    RPAREN          reduce using rule 15 (factor -> FLOAT .)
+
+
+state 9
+
+    (16) factor -> LPAREN . expression RPAREN
+    (3) expression -> . expression DOUBLE_EQUALS expression
+    (4) expression -> . expression PLUS term
+    (5) expression -> . expression MINUS term
+    (6) expression -> . term
+    (7) term -> . term TIMES factor
+    (8) term -> . term DIVIDE factor
+    (9) term -> . factor
+    (10) factor -> . factor POWER factor
+    (11) factor -> . factor MOD factor
+    (12) factor -> . MINUS factor
+    (13) factor -> . ID
+    (14) factor -> . INT
+    (15) factor -> . FLOAT
+    (16) factor -> . LPAREN expression RPAREN
+
+    MINUS           shift and go to state 5
+    ID              shift and go to state 17
+    INT             shift and go to state 7
+    FLOAT           shift and go to state 8
+    LPAREN          shift and go to state 9
+
+    expression                     shift and go to state 20
+    term                           shift and go to state 4
+    factor                         shift and go to state 6
+
+state 10
+
+    (1) assign -> ID EQUALS . expression
+    (3) expression -> . expression DOUBLE_EQUALS expression
+    (4) expression -> . expression PLUS term
+    (5) expression -> . expression MINUS term
+    (6) expression -> . term
+    (7) term -> . term TIMES factor
+    (8) term -> . term DIVIDE factor
+    (9) term -> . factor
+    (10) factor -> . factor POWER factor
+    (11) factor -> . factor MOD factor
+    (12) factor -> . MINUS factor
+    (13) factor -> . ID
+    (14) factor -> . INT
+    (15) factor -> . FLOAT
+    (16) factor -> . LPAREN expression RPAREN
+
+    MINUS           shift and go to state 5
+    ID              shift and go to state 17
+    INT             shift and go to state 7
+    FLOAT           shift and go to state 8
+    LPAREN          shift and go to state 9
+
+    expression                     shift and go to state 21
+    term                           shift and go to state 4
+    factor                         shift and go to state 6
+
+state 11
+
+    (3) expression -> expression DOUBLE_EQUALS . expression
+    (3) expression -> . expression DOUBLE_EQUALS expression
+    (4) expression -> . expression PLUS term
+    (5) expression -> . expression MINUS term
+    (6) expression -> . term
+    (7) term -> . term TIMES factor
+    (8) term -> . term DIVIDE factor
+    (9) term -> . factor
+    (10) factor -> . factor POWER factor
+    (11) factor -> . factor MOD factor
+    (12) factor -> . MINUS factor
+    (13) factor -> . ID
+    (14) factor -> . INT
+    (15) factor -> . FLOAT
+    (16) factor -> . LPAREN expression RPAREN
+
+    MINUS           shift and go to state 5
+    ID              shift and go to state 17
+    INT             shift and go to state 7
+    FLOAT           shift and go to state 8
+    LPAREN          shift and go to state 9
+
+    expression                     shift and go to state 22
+    term                           shift and go to state 4
+    factor                         shift and go to state 6
+
+state 12
+
+    (4) expression -> expression PLUS . term
+    (7) term -> . term TIMES factor
+    (8) term -> . term DIVIDE factor
+    (9) term -> . factor
+    (10) factor -> . factor POWER factor
+    (11) factor -> . factor MOD factor
+    (12) factor -> . MINUS factor
+    (13) factor -> . ID
+    (14) factor -> . INT
+    (15) factor -> . FLOAT
+    (16) factor -> . LPAREN expression RPAREN
+
+    MINUS           shift and go to state 5
+    ID              shift and go to state 17
+    INT             shift and go to state 7
+    FLOAT           shift and go to state 8
+    LPAREN          shift and go to state 9
+
+    term                           shift and go to state 23
+    factor                         shift and go to state 6
+
+state 13
+
+    (5) expression -> expression MINUS . term
+    (7) term -> . term TIMES factor
+    (8) term -> . term DIVIDE factor
+    (9) term -> . factor
+    (10) factor -> . factor POWER factor
+    (11) factor -> . factor MOD factor
+    (12) factor -> . MINUS factor
+    (13) factor -> . ID
+    (14) factor -> . INT
+    (15) factor -> . FLOAT
+    (16) factor -> . LPAREN expression RPAREN
+
+    MINUS           shift and go to state 5
+    ID              shift and go to state 17
+    INT             shift and go to state 7
+    FLOAT           shift and go to state 8
+    LPAREN          shift and go to state 9
+
+    term                           shift and go to state 24
+    factor                         shift and go to state 6
+
+state 14
+
+    (7) term -> term TIMES . factor
+    (10) factor -> . factor POWER factor
+    (11) factor -> . factor MOD factor
+    (12) factor -> . MINUS factor
+    (13) factor -> . ID
+    (14) factor -> . INT
+    (15) factor -> . FLOAT
+    (16) factor -> . LPAREN expression RPAREN
+
+    MINUS           shift and go to state 5
+    ID              shift and go to state 17
+    INT             shift and go to state 7
+    FLOAT           shift and go to state 8
+    LPAREN          shift and go to state 9
+
+    factor                         shift and go to state 25
+
+state 15
+
+    (8) term -> term DIVIDE . factor
+    (10) factor -> . factor POWER factor
+    (11) factor -> . factor MOD factor
+    (12) factor -> . MINUS factor
+    (13) factor -> . ID
+    (14) factor -> . INT
+    (15) factor -> . FLOAT
+    (16) factor -> . LPAREN expression RPAREN
+
+    MINUS           shift and go to state 5
+    ID              shift and go to state 17
+    INT             shift and go to state 7
+    FLOAT           shift and go to state 8
+    LPAREN          shift and go to state 9
+
+    factor                         shift and go to state 26
+
+state 16
+
+    (12) factor -> MINUS factor .
+    (10) factor -> factor . POWER factor
+    (11) factor -> factor . MOD factor
+
+  ! shift/reduce conflict for POWER resolved as shift
+  ! shift/reduce conflict for MOD resolved as shift
+    TIMES           reduce using rule 12 (factor -> MINUS factor .)
+    DIVIDE          reduce using rule 12 (factor -> MINUS factor .)
+    DOUBLE_EQUALS   reduce using rule 12 (factor -> MINUS factor .)
+    PLUS            reduce using rule 12 (factor -> MINUS factor .)
+    MINUS           reduce using rule 12 (factor -> MINUS factor .)
+    $end            reduce using rule 12 (factor -> MINUS factor .)
+    RPAREN          reduce using rule 12 (factor -> MINUS factor .)
+    POWER           shift and go to state 18
+    MOD             shift and go to state 19
+
+  ! POWER           [ reduce using rule 12 (factor -> MINUS factor .) ]
+  ! MOD             [ reduce using rule 12 (factor -> MINUS factor .) ]
+
+
+state 17
+
+    (13) factor -> ID .
+
+    POWER           reduce using rule 13 (factor -> ID .)
+    MOD             reduce using rule 13 (factor -> ID .)
+    TIMES           reduce using rule 13 (factor -> ID .)
+    DIVIDE          reduce using rule 13 (factor -> ID .)
+    DOUBLE_EQUALS   reduce using rule 13 (factor -> ID .)
+    PLUS            reduce using rule 13 (factor -> ID .)
+    MINUS           reduce using rule 13 (factor -> ID .)
+    $end            reduce using rule 13 (factor -> ID .)
+    RPAREN          reduce using rule 13 (factor -> ID .)
+
+
+state 18
+
+    (10) factor -> factor POWER . factor
+    (10) factor -> . factor POWER factor
+    (11) factor -> . factor MOD factor
+    (12) factor -> . MINUS factor
+    (13) factor -> . ID
+    (14) factor -> . INT
+    (15) factor -> . FLOAT
+    (16) factor -> . LPAREN expression RPAREN
+
+    MINUS           shift and go to state 5
+    ID              shift and go to state 17
+    INT             shift and go to state 7
+    FLOAT           shift and go to state 8
+    LPAREN          shift and go to state 9
+
+    factor                         shift and go to state 27
+
+state 19
+
+    (11) factor -> factor MOD . factor
+    (10) factor -> . factor POWER factor
+    (11) factor -> . factor MOD factor
+    (12) factor -> . MINUS factor
+    (13) factor -> . ID
+    (14) factor -> . INT
+    (15) factor -> . FLOAT
+    (16) factor -> . LPAREN expression RPAREN
+
+    MINUS           shift and go to state 5
+    ID              shift and go to state 17
+    INT             shift and go to state 7
+    FLOAT           shift and go to state 8
+    LPAREN          shift and go to state 9
+
+    factor                         shift and go to state 28
+
+state 20
+
+    (16) factor -> LPAREN expression . RPAREN
+    (3) expression -> expression . DOUBLE_EQUALS expression
+    (4) expression -> expression . PLUS term
+    (5) expression -> expression . MINUS term
+
+    RPAREN          shift and go to state 29
+    DOUBLE_EQUALS   shift and go to state 11
+    PLUS            shift and go to state 12
+    MINUS           shift and go to state 13
+
+
+state 21
+
+    (1) assign -> ID EQUALS expression .
+    (3) expression -> expression . DOUBLE_EQUALS expression
+    (4) expression -> expression . PLUS term
+    (5) expression -> expression . MINUS term
+
+    $end            reduce using rule 1 (assign -> ID EQUALS expression .)
+    DOUBLE_EQUALS   shift and go to state 11
+    PLUS            shift and go to state 12
+    MINUS           shift and go to state 13
+
+
+state 22
+
+    (3) expression -> expression DOUBLE_EQUALS expression .
+    (3) expression -> expression . DOUBLE_EQUALS expression
+    (4) expression -> expression . PLUS term
+    (5) expression -> expression . MINUS term
+
+  ! shift/reduce conflict for DOUBLE_EQUALS resolved as shift
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+    $end            reduce using rule 3 (expression -> expression DOUBLE_EQUALS expression .)
+    RPAREN          reduce using rule 3 (expression -> expression DOUBLE_EQUALS expression .)
+    DOUBLE_EQUALS   shift and go to state 11
+    PLUS            shift and go to state 12
+    MINUS           shift and go to state 13
+
+  ! DOUBLE_EQUALS   [ reduce using rule 3 (expression -> expression DOUBLE_EQUALS expression .) ]
+  ! PLUS            [ reduce using rule 3 (expression -> expression DOUBLE_EQUALS expression .) ]
+  ! MINUS           [ reduce using rule 3 (expression -> expression DOUBLE_EQUALS expression .) ]
+
+
+state 23
+
+    (4) expression -> expression PLUS term .
+    (7) term -> term . TIMES factor
+    (8) term -> term . DIVIDE factor
+
+    DOUBLE_EQUALS   reduce using rule 4 (expression -> expression PLUS term .)
+    PLUS            reduce using rule 4 (expression -> expression PLUS term .)
+    MINUS           reduce using rule 4 (expression -> expression PLUS term .)
+    $end            reduce using rule 4 (expression -> expression PLUS term .)
+    RPAREN          reduce using rule 4 (expression -> expression PLUS term .)
+    TIMES           shift and go to state 14
+    DIVIDE          shift and go to state 15
+
+
+state 24
+
+    (5) expression -> expression MINUS term .
+    (7) term -> term . TIMES factor
+    (8) term -> term . DIVIDE factor
+
+    DOUBLE_EQUALS   reduce using rule 5 (expression -> expression MINUS term .)
+    PLUS            reduce using rule 5 (expression -> expression MINUS term .)
+    MINUS           reduce using rule 5 (expression -> expression MINUS term .)
+    $end            reduce using rule 5 (expression -> expression MINUS term .)
+    RPAREN          reduce using rule 5 (expression -> expression MINUS term .)
+    TIMES           shift and go to state 14
+    DIVIDE          shift and go to state 15
+
+
+state 25
+
+    (7) term -> term TIMES factor .
+    (10) factor -> factor . POWER factor
+    (11) factor -> factor . MOD factor
+
+    TIMES           reduce using rule 7 (term -> term TIMES factor .)
+    DIVIDE          reduce using rule 7 (term -> term TIMES factor .)
+    DOUBLE_EQUALS   reduce using rule 7 (term -> term TIMES factor .)
+    PLUS            reduce using rule 7 (term -> term TIMES factor .)
+    MINUS           reduce using rule 7 (term -> term TIMES factor .)
+    $end            reduce using rule 7 (term -> term TIMES factor .)
+    RPAREN          reduce using rule 7 (term -> term TIMES factor .)
+    POWER           shift and go to state 18
+    MOD             shift and go to state 19
+
+
+state 26
+
+    (8) term -> term DIVIDE factor .
+    (10) factor -> factor . POWER factor
+    (11) factor -> factor . MOD factor
+
+    TIMES           reduce using rule 8 (term -> term DIVIDE factor .)
+    DIVIDE          reduce using rule 8 (term -> term DIVIDE factor .)
+    DOUBLE_EQUALS   reduce using rule 8 (term -> term DIVIDE factor .)
+    PLUS            reduce using rule 8 (term -> term DIVIDE factor .)
+    MINUS           reduce using rule 8 (term -> term DIVIDE factor .)
+    $end            reduce using rule 8 (term -> term DIVIDE factor .)
+    RPAREN          reduce using rule 8 (term -> term DIVIDE factor .)
+    POWER           shift and go to state 18
+    MOD             shift and go to state 19
+
+
+state 27
+
+    (10) factor -> factor POWER factor .
+    (10) factor -> factor . POWER factor
+    (11) factor -> factor . MOD factor
+
+  ! shift/reduce conflict for POWER resolved as shift
+  ! shift/reduce conflict for MOD resolved as shift
+    TIMES           reduce using rule 10 (factor -> factor POWER factor .)
+    DIVIDE          reduce using rule 10 (factor -> factor POWER factor .)
+    DOUBLE_EQUALS   reduce using rule 10 (factor -> factor POWER factor .)
+    PLUS            reduce using rule 10 (factor -> factor POWER factor .)
+    MINUS           reduce using rule 10 (factor -> factor POWER factor .)
+    $end            reduce using rule 10 (factor -> factor POWER factor .)
+    RPAREN          reduce using rule 10 (factor -> factor POWER factor .)
+    POWER           shift and go to state 18
+    MOD             shift and go to state 19
+
+  ! POWER           [ reduce using rule 10 (factor -> factor POWER factor .) ]
+  ! MOD             [ reduce using rule 10 (factor -> factor POWER factor .) ]
+
+
+state 28
+
+    (11) factor -> factor MOD factor .
+    (10) factor -> factor . POWER factor
+    (11) factor -> factor . MOD factor
+
+  ! shift/reduce conflict for POWER resolved as shift
+  ! shift/reduce conflict for MOD resolved as shift
+    TIMES           reduce using rule 11 (factor -> factor MOD factor .)
+    DIVIDE          reduce using rule 11 (factor -> factor MOD factor .)
+    DOUBLE_EQUALS   reduce using rule 11 (factor -> factor MOD factor .)
+    PLUS            reduce using rule 11 (factor -> factor MOD factor .)
+    MINUS           reduce using rule 11 (factor -> factor MOD factor .)
+    $end            reduce using rule 11 (factor -> factor MOD factor .)
+    RPAREN          reduce using rule 11 (factor -> factor MOD factor .)
+    POWER           shift and go to state 18
+    MOD             shift and go to state 19
+
+  ! POWER           [ reduce using rule 11 (factor -> factor MOD factor .) ]
+  ! MOD             [ reduce using rule 11 (factor -> factor MOD factor .) ]
+
+
+state 29
+
+    (16) factor -> LPAREN expression RPAREN .
+
+    POWER           reduce using rule 16 (factor -> LPAREN expression RPAREN .)
+    MOD             reduce using rule 16 (factor -> LPAREN expression RPAREN .)
+    TIMES           reduce using rule 16 (factor -> LPAREN expression RPAREN .)
+    DIVIDE          reduce using rule 16 (factor -> LPAREN expression RPAREN .)
+    DOUBLE_EQUALS   reduce using rule 16 (factor -> LPAREN expression RPAREN .)
+    PLUS            reduce using rule 16 (factor -> LPAREN expression RPAREN .)
+    MINUS           reduce using rule 16 (factor -> LPAREN expression RPAREN .)
+    $end            reduce using rule 16 (factor -> LPAREN expression RPAREN .)
+    RPAREN          reduce using rule 16 (factor -> LPAREN expression RPAREN .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for POWER in state 16 resolved as shift
+WARNING: shift/reduce conflict for MOD in state 16 resolved as shift
+WARNING: shift/reduce conflict for DOUBLE_EQUALS in state 22 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 22 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 22 resolved as shift
+WARNING: shift/reduce conflict for POWER in state 27 resolved as shift
+WARNING: shift/reduce conflict for MOD in state 27 resolved as shift
+WARNING: shift/reduce conflict for POWER in state 28 resolved as shift
+WARNING: shift/reduce conflict for MOD in state 28 resolved as shift
