@@ -1,8 +1,10 @@
 import ply.yacc as yacc
 import ply.lex as lex
 
-groupstageinfo = {}
-teamsscoreinfo = {}
+stagelist = []
+matchlist = []
+scorerlist = []
+matchdetails = []
 
 tokens=[
     'BEGINSTAGEE', 'BEGINSTAGEF', 'OPENMATCHDIV',
@@ -115,29 +117,29 @@ def p_handlerow(p):
                  | OPENDATA skip CLOSEDATA OPENHEADER CONTENT OPENHREF CONTENT CLOSEHREF CONTENT CONTENT CLOSEHEADER OPENDATA CONTENT CLOSEDATA OPENDATA CONTENT CLOSEDATA OPENDATA CONTENT CLOSEDATA OPENDATA CONTENT CLOSEDATA OPENDATA CONTENT CLOSEDATA OPENDATA CONTENT CLOSEDATA OPENDATA CONTENT CLOSEDATA OPENDATA CONTENT CLOSEDATA handlerow
                  | '''
     if len(p)==35:
-        print(p[7],p[11],p[14],p[17],p[20],p[23],p[26],p[29],p[32])
+        stagelist.append(p[7]+" "+p[23]+" "+p[26])
     elif len(p)==38:
-        print(p[7],p[11],p[14],p[17],p[20],p[23],p[26],p[29],p[32])
+        stagelist.append(p[7]+" "+p[23]+" "+p[26])
     elif len(p)==37:
-        print(p[7],p[13],p[16],p[19],p[22],p[25],p[28],p[31])
+        stagelist.append(p[7]+" "+p[13]+" " +p[25])
 
 def p_handlematches(p):
     '''handlematches : skip OPENTABLE OPENROW OPENHEADER OPENHREF CONTENT CLOSEHREF CONTENT CLOSEHEADER OPENHEADER OPENHREF CONTENT CLOSEHREF CLOSEHEADER OPENHEADER CONTENT OPENHREF CONTENT CLOSEHREF CLOSEHEADER CLOSEROW OPENROW OPENDATA handlescorer CLOSEDATA OPENDATA skip CLOSEDATA OPENDATA handlescorer CLOSEDATA CLOSEROW CLOSEPOINTTABLE FRIGHTDIV handledetails SEPARATOR handlematches
                      | OPENMATCHDIV skip OPENTABLE OPENROW OPENHEADER OPENHREF CONTENT CLOSEHREF CONTENT CLOSEHEADER OPENHEADER OPENHREF CONTENT CLOSEHREF CLOSEHEADER OPENHEADER CONTENT OPENHREF CONTENT CLOSEHREF CLOSEHEADER CLOSEROW OPENROW OPENDATA handlescorer CLOSEDATA OPENDATA skip CLOSEDATA OPENDATA handlescorer CLOSEDATA CLOSEROW CLOSEPOINTTABLE FRIGHTDIV handledetails SEPARATOR handlematches
                      | OPENMATCHDIV skip OPENTABLE OPENROW OPENHEADER OPENHREF CONTENT CLOSEHREF CONTENT CLOSEHEADER OPENHEADER OPENHREF CONTENT CLOSEHREF CLOSEHEADER OPENHEADER CONTENT OPENHREF CONTENT CLOSEHREF CLOSEHEADER CLOSEROW OPENROW OPENDATA handlescorer CLOSEDATA OPENDATA skip CLOSEDATA OPENDATA handlescorer CLOSEDATA CLOSEROW CLOSEPOINTTABLE FRIGHTDIV handledetails
                      | '''
-    if len(p) > 1:
-        print(p[7],p[13],p[19])
+    if len(p)>1:
+        matchlist.append(p[7]+" "+p[13]+" "+p[19])
 
 def p_handlescorer(p):
     '''handlescorer : skip OPENLIST OPENHREF CONTENT CLOSEHREF skip CLOSELIST handlescorer
                     | '''
     if len(p)>1:
-        print(p[4])
+        scorerlist.append(p[4])
 
 def p_handledetails(p):
     '''handledetails : OPENHREF CONTENT CLOSEHREF CONTENT OPENHREF CONTENT CLOSEHREF CONTENT CONTENT OPENHREF CONTENT CLOSEHREF skip'''
-    print(p[2],p[4],p[6],p[8],p[9],p[11])
+    matchdetails.append(p[2]+" "+p[4]+" "+p[6]+" "+p[8]+" "+p[9]+" "+p[11])
 
 def p_before(p):
     '''before : CONTENT before
@@ -169,7 +171,7 @@ def p_skip(p):
 def p_error(p):
     pass
 
-if __name__ == "__main__":
+def groupE():
     lexer = lex.lex()
     parser = yacc.yacc()
     f=open('fifa.html','r',encoding='utf-8')
@@ -183,5 +185,48 @@ if __name__ == "__main__":
         log.write(str(tok)+'\n')
     log.close()
     res = parser.parse(data)
-    # print(res)
+    matchlist.reverse()
+    # print(stagelist)
+    # print(matchlist)
+    # print(scorerlist)
+    # print(matchdetails)
+    groupEdata = {
+        'pointtable' : stagelist,
+        'matches' : {
+            '1': {
+                'score' : matchlist[0],
+                'details' : matchdetails[0],
+                'scorers' : [scorerlist[0],scorerlist[1],scorerlist[2]]
+            },
+            '2': {
+                'score' : matchlist[1],
+                'details' : matchdetails[1],
+                'scorers' : [scorerlist[3],scorerlist[4],scorerlist[5],scorerlist[6],scorerlist[7],scorerlist[8]]
+            },
+            '3': {
+                'score' : matchlist[2],
+                'details' : matchdetails[2],
+                'scorers' : [scorerlist[9]]
+            },
+            '4': {
+                'score' : matchlist[3],
+                'details' : matchdetails[3],
+                'scorers' : [scorerlist[10],scorerlist[11]]
+            },
+            '5': {
+                'score' : matchlist[4],
+                'details' : matchdetails[4],
+                'scorers' : [scorerlist[12],scorerlist[13],scorerlist[14]]
+            },
+            '6': {
+                'score' : matchlist[5],
+                'details' : matchdetails[5],
+                'scorers' : [scorerlist[15],scorerlist[16],scorerlist[17],scorerlist[18],scorerlist[19]]
+            }
+        }
+    }
+    print(groupEdata)
     f.close()
+    return groupEdata
+
+groupE()

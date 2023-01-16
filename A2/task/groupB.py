@@ -173,7 +173,7 @@ def p_error(p):
     print('Error at line ', p)
     pass
 
-if __name__ == "__main__":
+def groupB():
     lexer = lex.lex()
     parser = yacc.yacc()
     f=open('fifa.html','r',encoding='utf-8')
@@ -188,9 +188,45 @@ if __name__ == "__main__":
     log.close()
     res = parser.parse(data)
     matchlist.reverse()
-    print(stagelist)
-    print(matchlist)
-    print(scorerlist)
-    print(matchdetails)
-    # print(res)
+    # print(stagelist)
+    # print(matchlist)
+    # print(scorerlist)
+    # print(matchdetails)
+    groupBdata = {
+        'pointtable' : stagelist,
+        'matches' : {
+            '1': {
+                'score' : matchlist[0],
+                'details' : matchdetails[0],
+                'scorers' : [scorerlist[0],scorerlist[1],scorerlist[2],scorerlist[3],scorerlist[4],scorerlist[5]]
+            },
+            '2': {
+                'score' : matchlist[1],
+                'details' : matchdetails[1],
+                'scorers' : [scorerlist[6],scorerlist[7]]
+            },
+            '3': {
+                'score' : matchlist[2],
+                'details' : matchdetails[2],
+                'scorers' : [scorerlist[8],scorerlist[9]]
+            },
+            '4': {
+                'score' : matchlist[3],
+                'details' : matchdetails[3],
+                'scorers' : []
+            },
+            '5': {
+                'score' : matchlist[4],
+                'details' : matchdetails[4],
+                'scorers' : [scorerlist[10],scorerlist[11]]
+            },
+            '6': {
+                'score' : matchlist[5],
+                'details' : matchdetails[5],
+                'scorers' : [scorerlist[12]]
+            }
+        }
+    }
+    print(groupBdata)
     f.close()
+    return groupBdata
