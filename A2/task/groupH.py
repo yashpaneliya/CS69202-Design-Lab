@@ -179,12 +179,9 @@ def groupH():
     lexer.input(data)
     res = parser.parse(data)
     matchlist.reverse()
-    # print(stagelist)
-    # print(matchlist)
-    # print(scorerlist)
-    # print(matchdetails)
     groupHdata = {
         'pointtable' : stagelist,
+        'matchlist' : matchlist,
         'matches' : {
             '1': {
                 'score' : matchlist[0],
@@ -218,8 +215,5 @@ def groupH():
             }
         }
     }
-    print(groupHdata)
     f.close()
     return groupHdata
-
-groupH()

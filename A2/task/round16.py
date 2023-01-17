@@ -229,7 +229,4 @@ def round16():
             'penscorers' : [],
         },
     }
-    print(round16Data)
     return round16Data
-
-round16()

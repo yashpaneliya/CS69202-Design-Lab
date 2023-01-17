@@ -103,6 +103,7 @@ def p_futdivs(p):
 def p_futanchors(p):
     '''futanchors : OPENHREF CONTENT CLOSEHREF CONTENT CONTENT CONTENT OPENHREF CONTENT CLOSEHREF'''
     if len(p) > 1:
+        # print(p[2] + " vs " + p[8])
         futlist.append(p[2] + " vs " + p[8])
 
 def p_skip(p):
@@ -119,15 +120,22 @@ def p_error(p):
 def getfivefixtures(filename):
     global prevlist
     global futlist
-    prevlist = []
-    futlist = []
-    lexer = lex.lex()
-    parser = yacc.yacc()
+    # prevlist = []
+    # futlist = []
     f = open(filename+".html", 'r', encoding='utf-8')
     data = f.read()
+    lexer = lex.lex()
+    parser = yacc.yacc()
     lexer.input(data)
+    f.close()
+    # log = open('log.txt','w',encoding='utf8')
+    # while True:
+    #     t = lexer.token()
+    #     if t is None:
+    #         break
+    #     log.write(str(t)+"\n")
+    # log.close()
     parser.parse(data)
-    # check length of list is 5 or less (in case of error)
     if len(prevlist) > 5:
         prevlist = prevlist[-5:]
     if len(futlist) > 5:
@@ -140,4 +148,4 @@ def getfivefixtures(filename):
         print(i)
     print("==============================================")
 
-getfivefixtures("Brazil_national_football_team")
+# getfivefixtures('United_States_men%27s_national_soccer_team')

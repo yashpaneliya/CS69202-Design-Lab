@@ -245,8 +245,5 @@ def semiFinals():
             "penscorers": [],
         },
     }
-    print(semifinalData)
     f.close()
     return semifinalData
-
-semiFinals()

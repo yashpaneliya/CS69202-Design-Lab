@@ -179,12 +179,9 @@ def groupF():
     lexer.input(data)
     res = parser.parse(data)
     matchlist.reverse()
-    # print(stagelist)
-    # print(matchlist)
-    # print(scorerlist)
-    # print(matchdetails)
     groupFdata = {
         'pointtable' : stagelist,
+        'matchlist' : matchlist,
         'matches' : {
             '1': {
                 'score' : matchlist[0],
@@ -218,8 +215,5 @@ def groupF():
             }
         }
     }
-    print(groupFdata)
     f.close()
     return groupFdata
-
-groupF()

@@ -259,7 +259,5 @@ def quarterfinals():
             "penscorers": []
         },
     }
-    print(quarterFinalData)
     f.close()
-
-quarterfinals()
+    return quarterFinalData

@@ -180,12 +180,9 @@ def groupD():
     lexer.input(data)
     res = parser.parse(data)
     matchlist.reverse()
-    # print(stagelist)
-    # print(matchlist)
-    # print(scorerlist)
-    # print(matchdetails)
     groupDdata = {
         'pointtable' : stagelist,
+        'matchlist' : matchlist,
         'matches' : {
             '1': {
                 'score' : matchlist[0],
@@ -219,8 +216,5 @@ def groupD():
             }
         }
     }
-    print(groupDdata)
     f.close()
     return groupDdata
-
-groupD()

@@ -205,27 +205,17 @@ def p_error(p):
     # print('Error at line ', p)
     pass
 
-if __name__ == "__main__":
+def groupA():
     lexer = lex.lex()
     parser = yacc.yacc()
     f=open('fifa.html','r',encoding='utf-8')
     data = f.read()
     lexer.input(data)
-    log = open('log.txt','w', encoding='utf8')
-    while True:
-        tok = lexer.token()
-        if not tok:
-            break
-        log.write(str(tok)+'\n')
-    log.close()
     res = parser.parse(data)
-    # print(stagelist)
-    # print(matchlist)
-    # print(scorerlist)
-    # print(matchdetails)
     matchlist.reverse()
     groupAdata = {
         'pointtable' : stagelist,
+        'matchlist' : matchlist,
         'matches' : {
             '1': {
                 'score' : 'Qatar 0-2 Equador',
@@ -259,5 +249,5 @@ if __name__ == "__main__":
             }
         }
     }
-    print(groupAdata)
     f.close()
+    return groupAdata

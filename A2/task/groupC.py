@@ -177,21 +177,11 @@ def groupC():
     f=open('fifa.html','r',encoding='utf-8')
     data = f.read()
     lexer.input(data)
-    log = open('log.txt','w', encoding='utf8')
-    # while True:
-    #     tok = lexer.token()
-    #     if not tok:
-    #         break
-    #     log.write(str(tok)+'\n')
-    # log.close()
     res = parser.parse(data)
     matchlist.reverse()
-    print(stagelist)
-    print(matchlist)
-    print(scorerlist)
-    print(matchdetails)
     groupCdata = {
         'pointtable' : stagelist,
+        'matchlist' : matchlist,
         'matches' : {
             '1': {
                 'score' : matchlist[0],
@@ -225,8 +215,5 @@ def groupC():
             }
         }
     }
-    print(groupCdata)
     f.close()
     return groupCdata
-
-groupC()
