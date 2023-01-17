@@ -121,6 +121,8 @@ def p_error(p):
 
 
 def getVenueList():
+    global venue
+    venue = {}
     lexer = lex.lex()
     parser = yacc.yacc()
     f=open('fifa.html','r',encoding='utf-8')

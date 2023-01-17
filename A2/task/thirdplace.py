@@ -220,6 +220,14 @@ def p_error(p):
 
 
 def thirdPlace():
+    global matchlist
+    global scorerlist
+    global matchdetails
+    global rightpenscorerslist
+    matchlist = []
+    scorerlist = []
+    matchdetails = []
+    rightpenscorerslist = []
     lexer = lex.lex()
     parser = yacc.yacc()
     f = open("fifa.html", "r", encoding="utf-8")

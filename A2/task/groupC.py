@@ -172,6 +172,14 @@ def p_error(p):
     pass
 
 def groupC():
+    global stagelist
+    global matchlist
+    global scorerlist
+    global matchdetails
+    stagelist = []
+    matchlist = []
+    scorerlist = []
+    matchdetails = []
     lexer = lex.lex()
     parser = yacc.yacc()
     f=open('fifa.html','r',encoding='utf-8')
