@@ -6,13 +6,28 @@ from awardsyacc import getAwardsList
 from nationyacc import getCurrentSquad
 from fivefict import getfivefixtures
 
+from groupA import groupA
+from groupB import groupB
+from groupC import groupC
+from groupD import groupD
+from groupE import groupE
+from groupF import groupF
+from groupG import groupG
+from groupH import groupH
+
+from round16 import round16
+from semifinals import semiFinals
+from quarterfinals import quarterfinals
+from thirdplace import thirdPlace
+from finals import final
+
 from ply.lex import lex
 from ply.yacc import yacc
 
 exception_nation_links = {
     'Australia': "Australia_men%27s_national_soccer_team",
     'Canada': "Canada_men%27s_national_soccer_team",
-    'United States': "United_States_men%27s_national_soccer_team",
+    'United_States': "United_States_men%27s_national_soccer_team",
 }
 
 # Write a menu-driven program to resolve user queries in simple python
@@ -107,39 +122,193 @@ def teamSubMenu(teamname):
     f = open('{nation}.html'.format(nation=teamname), 'w',encoding='utf-8')
     f.write(data)
     f.close()
+    while True:
+        print('''
+        *******************************************************
+        1. Show its current squad.
+        2. Show its last & upcoming five matches.
+        3. View player details
+        4. Exit
+        *******************************************************
+        ''')
+        choice = int(input('Enter your choice: '))
+        if choice == 1:
+            print('Current Squad')
+            squadlist = getCurrentSquad(teamname)
+            print("************************************************************************")
+            for i in range(0,len(squadlist)-1,2):
+                print(str(i+1)+"."+squadlist[i] + "\t\t" + str(i+2) + "." + squadlist[i+1])
+            print("************************************************************************")
+        elif choice == 2:
+            print('Last & upcoming five matches')
+            getfivefixtures(teamname)
+        elif choice == 3:
+            squadlist = getCurrentSquad(teamname)
+            print('Current Squad')
+            squadlist = getCurrentSquad(teamname)
+            print("************************************************************************")
+            for i in range(0,len(squadlist)-1,2):
+                print(str(i+1)+"."+squadlist[i] + "\t\t" + str(i+2) + "." + squadlist[i+1])
+            print("************************************************************************")
+            playername = input('Enter the player name: ')
+            playerSubMenu(playername, teamname)
+        elif choice == 4:
+            mainmenu()
+        else:
+            print("Invalid choice!!")
 
+def knockstageMenu():
+    while True:
+        print('''
+        ************************************************
+        * 1. Round of 16                               *
+        * 2. Quarter finals                            *
+        * 3. Semi finals                               *
+        * 4. Third place                               *
+        * 5. Final                                     *
+        * 6. Exit                                      *
+        ************************************************
+        ''')
+        ks = int(input("Select the knockout stage:"))
+        if ks == 1:
+            knockdata = round16()
+        elif ks ==2:
+            knockdata = quarterfinals()
+        elif ks==3:
+            knockdata = semiFinals()
+        elif ks==4:
+            knockdata = thirdPlace()
+        elif ks==5:
+            knockdata = final()
+        elif ks==6:
+            break
+        else:
+            print("Invalid choice!!")
+            continue
+        while True:
+            print('''
+            *****************************************************************
+            * 1. Fixtures                                                   *
+            * 2. Match details                                              *
+            * 3. Exit                                                       *
+            *****************************************************************
+            ''')
+            choice = int(input("Enter the choice: "))
+            if choice==1:
+                print("*********************************************")
+                for match in knockdata['matchlist']:
+                    print(match)
+                print("*********************************************")
+            elif choice==2:
+                print("*********************************************")
+                for match in knockdata['matchlist']:
+                    print(match)
+                print("*********************************************")
+                matchchoice = int(input("Enter the match number: "))
+                if matchchoice > len(knockdata['matchlist']):
+                    print("Enter a valid match number!")
+                    continue
+                match = knockdata[str(matchchoice)]
+                print("**************************************************************************************")
+                print("Score: "+match['score'])
+                print("Match details: "+match['details'])
+                print("Scorers List: ",match['scorerlist'])
+                print("Penalties: ",match['isPen'])
+                print("Penalty takers: ",match['penscorers'])
+                print("**************************************************************************************")
+            elif choice==3:
+                break
+            else:
+                print("Invalid choice!!")
+
+def getGroupData(stage):
+    if stage == 'A':
+        return groupA()
+    elif stage == 'B':
+        return groupB()
+    elif stage == 'C':
+        return groupC()
+    elif stage == 'D':
+        return groupD()
+    elif stage == 'E':
+        return groupE()
+    elif stage == 'F':
+        return groupF()
+    elif stage == 'G':
+        return groupG()
+    elif stage == 'H':
+        return groupH()
+
+def groupstageMenu():
     print('''
-    *******************************************************
-    1. Show its current squad.
-    2. Show its last & upcoming five matches.
-    3. View player details
-    4. Exit
-    *******************************************************
+    Enter the stage you want to view (A/B/C/D/E/F/G/H):
     ''')
-    choice = int(input('Enter your choice: '))
-    if choice == 1:
-        print('Current Squad')
-        squadlist = getCurrentSquad(teamname)
-        print("************************************************************************")
-        for i in range(0,26,2):
-            print(str(i+1)+"."+squadlist[i] + "\t\t" + str(i+2) + "." + squadlist[i+1])
-        print("************************************************************************")
-    elif choice == 2:
-        print('Last & upcoming five matches')
-        getfivefixtures(teamname)
-    elif choice == 3:
-        squadlist = getCurrentSquad(teamname)
-        print('Current Squad')
-        squadlist = getCurrentSquad(teamname)
-        print("************************************************************************")
-        for i in range(0,26,2):
-            print(str(i+1)+"."+squadlist[i] + "\t\t" + str(i+2) + "." + squadlist[i+1])
-        print("************************************************************************")
-        playername = input('Enter the player name: ')
-        playerSubMenu(playername, teamname)
-    elif choice == 4:
-        mainmenu()
+    stage = input()
+    if stage not in ['A','B','C','D','E','F','G','H']:
+        print("Invalid stage")
+        return
+    groupData = getGroupData(stage)
+    while True:
+        print('''
+        *****************************************************************
+        * 1. Teams advanced for knockouts.                              *
+        * 2. Number of goals forwarded & conceded by teams              *
+        * 3. Match details                                              *
+        * 4. Exit                                                       *
+        *****************************************************************
+        ''')
+        choice = int(input("Enter choice: "))
+        if choice == 1:
+            print("Teams advanced for knockouts")
+            print("*****************************")
+            print(groupData['pointtable'][0])
+            print(groupData['pointtable'][1])
+            print("*****************************")
+        elif choice == 2:
+            print("Number of goals forwarded & conceded by teams")
+            print("*********************************************")
+            print("Team\tGF\tGC")
+            for team in groupData['pointtable']:
+                print(team)
+            print("*********************************************")
+        elif choice == 3:
+            print("*********************************************")
+            for match in groupData['matchlist']:
+                print(match)
+            print("*********************************************")
+            matchchoice = int(input("Enter the match number: "))
+            if matchchoice > 8:
+                print("Enter a valid match number")
+                return
+            match = groupData['matches'][str(matchchoice)]
+            print("**************************************************************************************")
+            print("Score: "+match['score'])
+            print("Match details: "+match['details'])
+            print("Scorers List: ",match['scorers'])
+            print("**************************************************************************************")
+        elif choice==4:
+            break
+        else:
+            print("Invalid choice!!")
 
+def stageMenu():
+    while True:
+        print('''
+        *********************************
+        * 1. Group Stage                *
+        * 2. Knockout Stage             *
+        * 3. Exit                       *
+        *********************************
+        ''')
+        stage = int(input("Select the stage:"))
+        if stage==1:
+            groupstageMenu()
+        elif stage==2:
+            knockstageMenu()
+        elif stage==3:
+            break
+        else:
+            print("Invalid choice!!")
 
 def mainmenu():
     global log
@@ -156,7 +325,6 @@ def mainmenu():
     choice = int(input('Enter your choice: '))
     if choice == 1:
         teamlist = getTeamList()
-        # print(teamlist)
         print("*****************************************************************************************************************")
         for i in range(0,32,4):
             print(str(i+1)+"."+teamlist[i] + "\t\t" + str(i+2) + "." + teamlist[i+1] + "\t\t" + str(i+3) + "." + teamlist[i+2]+ "\t\t" + str(i+4) + "." + teamlist[i+3])
@@ -173,6 +341,7 @@ def mainmenu():
         log.write(str(venueDict))
     elif choice == 3:
         print('Match details')
+        stageMenu()
     elif choice == 4:
         winnerDict = getAwardsList()
         print("****************************************************************************")
