@@ -1,5 +1,4 @@
 from urllib.request import Request, urlopen
-import logging
 from teamyacc2 import getTeamList
 from venueyacc import getVenueList
 from awardsyacc import getAwardsList
@@ -66,7 +65,6 @@ exception_nation_links = {
             # f. Goal count
 
 # user will enter the query number and according to that the subquery list will prompt (if any) and then user will provide input (if required) and result will be displayed
-log = open('log.txt', 'w', encoding='utf-8')
 
 def playerSubMenu(playername, teamname):
     # replace space with underscore
@@ -139,6 +137,8 @@ def teamSubMenu(teamname):
             for i in range(0,len(squadlist)-1,2):
                 print(str(i+1)+"."+squadlist[i] + "\t\t" + str(i+2) + "." + squadlist[i+1])
             print("************************************************************************")
+            with open('programlogs.txt', 'a') as programlogs:
+                programlogs.write('Current Squad\t' + str(squadlist)+'\n')
         elif choice == 2:
             print('Last & upcoming five matches')
             getfivefixtures(teamname)
@@ -158,6 +158,7 @@ def teamSubMenu(teamname):
             print("Invalid choice!!")
 
 def knockstageMenu():
+    global programlogs
     while True:
         print('''
         ************************************************
@@ -199,6 +200,8 @@ def knockstageMenu():
                 for match in knockdata['matchlist']:
                     print(match)
                 print("*********************************************")
+                with open('programlogs.txt','a') as programlogs:
+                    programlogs.write('Fixtures\t' + str(knockdata['matchlist'])+'\n')
             elif choice==2:
                 print("*********************************************")
                 for match in knockdata['matchlist']:
@@ -216,6 +219,8 @@ def knockstageMenu():
                 print("Penalties: ",match['isPen'])
                 print("Penalty takers: ",match['penscorers'])
                 print("**************************************************************************************")
+                with open('programlogs.txt','a') as programlogs:
+                    programlogs.write('Match details\t' + str(match)+'\n')
             elif choice==3:
                 break
             else:
@@ -264,6 +269,8 @@ def groupstageMenu():
             print(groupData['pointtable'][0])
             print(groupData['pointtable'][1])
             print("*****************************")
+            with open('programlogs.txt','a') as programlogs:
+                programlogs.write('Teams advanced for knockouts\t' + str(groupData['pointtable'][0]) + '\t' + str(groupData['pointtable'][1])+'\n')
         elif choice == 2:
             print("Number of goals forwarded & conceded by teams")
             print("*********************************************")
@@ -271,6 +278,8 @@ def groupstageMenu():
             for team in groupData['pointtable']:
                 print(team)
             print("*********************************************")
+            with open('programlogs.txt','a') as programlogs:
+                programlogs.write('Number of goals forwarded & conceded by teams\t' + str(groupData['pointtable'])+'\n')
         elif choice == 3:
             print("*********************************************")
             for match in groupData['matchlist']:
@@ -286,6 +295,8 @@ def groupstageMenu():
             print("Match details: "+match['details'])
             print("Scorers List: ",match['scorers'])
             print("**************************************************************************************")
+            with open('programlogs.txt','a') as programlogs:
+                programlogs.write('Match details\t' + str(match)+'\n')
         elif choice==4:
             break
         else:
@@ -311,7 +322,6 @@ def stageMenu():
             print("Invalid choice!!")
 
 def mainmenu():
-    global log
     print('''
     *****************************************************************
     * 1. All the teams participated in the tournament.              *
@@ -329,16 +339,18 @@ def mainmenu():
         for i in range(0,32,4):
             print(str(i+1)+"."+teamlist[i] + "\t\t" + str(i+2) + "." + teamlist[i+1] + "\t\t" + str(i+3) + "." + teamlist[i+2]+ "\t\t" + str(i+4) + "." + teamlist[i+3])
         print("*****************************************************************************************************************")
-        log.write('All the teams participated in the tournament are: ')
-        log.write(str(teamlist))
+        with open('programlogs.txt','a') as programlogs:
+            programlogs.write('All the teams participated in the tournament are\t')
+            programlogs.write(str(teamlist)+'\n')
     elif choice == 2:
         venueDict = getVenueList()
         print("****************************************************************************")
         for i in venueDict:
             print(i + " : " + venueDict[i])
         print("****************************************************************************")
-        log.write('Venue details like name and capacity are: ')
-        log.write(str(venueDict))
+        with open('programlogs.txt','a') as programlogs:
+            programlogs.write('Venue details like name and capacity\t')
+            programlogs.write(str(venueDict)+'\n')
     elif choice == 3:
         print('Match details')
         stageMenu()
@@ -348,8 +360,9 @@ def mainmenu():
         for i in winnerDict:
             print(i + " \t\t\t: " + winnerDict[i])
         print("****************************************************************************")
-        log.write('Awards List')
-        log.write(str(winnerDict))
+        with open('programlogs.txt','a') as programlogs:
+            programlogs.write('Awards List\t')
+            programlogs.write(str(winnerDict)+'\n')
     elif choice == 5:
         teamlist = getTeamList()
         print("*****************************************************************************************************************")
@@ -358,8 +371,9 @@ def mainmenu():
         print("*****************************************************************************************************************")
         teamnumber = int(input('Enter the team name (i.e. number): '))
         teamname = teamlist[teamnumber-1]
-        log.write('Team name: ')
-        log.write(teamname)
+        with open('programlogs.txt','a') as teamlogs:
+            teamlogs.write('Team name\t')
+            teamlogs.write(teamname+'\n')
         teamSubMenu(teamname)
     elif choice == 6:
         exit()

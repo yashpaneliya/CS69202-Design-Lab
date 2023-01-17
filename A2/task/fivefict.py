@@ -120,26 +120,23 @@ def p_error(p):
 def getfivefixtures(filename):
     global prevlist
     global futlist
-    # prevlist = []
-    # futlist = []
+    prevlist = []
+    futlist = []
     f = open(filename+".html", 'r', encoding='utf-8')
     data = f.read()
     lexer = lex.lex()
     parser = yacc.yacc()
     lexer.input(data)
     f.close()
-    # log = open('log.txt','w',encoding='utf8')
-    # while True:
-    #     t = lexer.token()
-    #     if t is None:
-    #         break
-    #     log.write(str(t)+"\n")
-    # log.close()
     parser.parse(data)
     if len(prevlist) > 5:
         prevlist = prevlist[-5:]
     if len(futlist) > 5:
         futlist = futlist[:5]
+    with open('programlogs.txt', 'a', encoding='utf-8') as f:   
+        f.write("Five fixtures:\t")
+        f.write(str(prevlist))
+        f.write(str(futlist))
     print("================Last 5 matches================")
     for i in prevlist:
         print(i)

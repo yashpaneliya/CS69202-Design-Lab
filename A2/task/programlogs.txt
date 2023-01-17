@@ -1,0 +1,10 @@
+All the teams participated in the tournament are	1.Argentina		2.Australia		3.Belgium		4.Brazil
+5.Cameroon		6.Canada		7.Costa Rica		8.Croatia
+9.Denmark		10.Ecuador		11.England		12.France
+13.Germany		14.Ghana		15.Iran		16.Japan
+17.Mexico		18.Morocco		19.Netherlands		20.Poland
+21.Portugal		22.Qatar		23.Saudi Arabia		24.Senegal
+25.Serbia		26.South Korea		27.Spain		28.Switzerland
+29.Tunisia		30.United States		31.Uruguay		32.Wales
+All the teams participated in the tournament are	['Argentina', 'Australia', 'Belgium', 'Brazil', 'Cameroon', 'Canada', 'Costa Rica', 'Croatia', 'Denmark', 'Ecuador', 'England', 'France', 'Germany', 'Ghana', 'Iran', 'Japan', 'Mexico', 'Morocco', 'Netherlands', 'Poland', 'Portugal', 'Qatar', 'Saudi Arabia', 'Senegal', 'Serbia', 'South Korea', 'Spain', 'Switzerland', 'Tunisia', 'United States', 'Uruguay', 'Wales']
+Venue details like name and capacity	{'Lusail Stadium': '88,966', 'Al Bayt Stadium': '68,895', 'Khalifa International Stadium': '45,857', 'Ahmad bin Ali Stadium': '45,032', 'Education City Stadium': '44,667', 'Al Thumama Stadium': '44,400', 'Stadium 974': '44,089', 'Al Janoub Stadium': '44,325'}
