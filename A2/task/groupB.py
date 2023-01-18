@@ -1,9 +1,17 @@
+# Module: groupB.py
+# Purpose: To get the group stage B matches
+
 import ply.yacc as yacc
 import ply.lex as lex
 
+# lists to store the data
+# to stote points of each team
 stagelist = []
+# to store match fixtures
 matchlist = []
+# to store match scorers
 scorerlist = []
+# to store match details (stadium, attendence, referee)
 matchdetails = []
 
 tokens=[
@@ -103,13 +111,16 @@ def t_GARBAGE(t):
 def t_error(t):
     t.lexer.skip(1)
 
+# grammar to final stage A heading
 def p_start(p):
     '''start : before BEGINSTAGEB skip OPENPOINTTABLE handletable CLOSEPOINTTABLE skip SEPARATOR handlematches BEGINSTAGEC'''
 
+# grammar to handle each row of pointtable
 def p_handletable(p):
     '''handletable : OPENROW handlerow CLOSEROW handletable
                    | '''
 
+# grammar to handle point table columns and store it
 def p_handlerow(p):
     '''handlerow : OPENHEADER skip CLOSEHEADER OPENHEADER skip OPENLIST skip CLOSELIST OPENLIST skip CLOSELIST OPENLIST skip CLOSELIST CLOSEHEADER OPENHEADER skip CLOSEHEADER OPENHEADER skip CLOSEHEADER OPENHEADER skip CLOSEHEADER OPENHEADER skip CLOSEHEADER OPENHEADER skip CLOSEHEADER OPENHEADER skip CLOSEHEADER OPENHEADER skip CLOSEHEADER OPENHEADER skip CLOSEHEADER OPENHEADER skip CLOSEHEADER handlerow
                  | OPENDATA skip CLOSEDATA OPENHEADER CONTENT OPENHREF CONTENT CLOSEHREF CLOSEHEADER OPENDATA CONTENT CLOSEDATA OPENDATA CONTENT CLOSEDATA OPENDATA CONTENT CLOSEDATA OPENDATA CONTENT CLOSEDATA OPENDATA CONTENT CLOSEDATA OPENDATA CONTENT CLOSEDATA OPENDATA CONTENT CLOSEDATA OPENDATA CONTENT CLOSEDATA handlerow
@@ -123,6 +134,7 @@ def p_handlerow(p):
     elif len(p)==37:
         stagelist.append(p[7]+" "+p[13]+" " +p[25])
     
+# grammar to handle match details one by one and store it
 def p_handlematches(p):
     '''handlematches : skip OPENTABLE OPENROW OPENHEADER OPENHREF CONTENT CLOSEHREF CONTENT CLOSEHEADER OPENHEADER OPENHREF CONTENT CLOSEHREF CLOSEHEADER OPENHEADER CONTENT OPENHREF CONTENT CLOSEHREF CLOSEHEADER CLOSEROW OPENROW OPENDATA handlescorer CLOSEDATA OPENDATA skip CLOSEDATA OPENDATA handlescorer CLOSEDATA CLOSEROW CLOSEPOINTTABLE FRIGHTDIV handledetails SEPARATOR handlematches
                      | OPENMATCHDIV skip OPENTABLE OPENROW OPENHEADER OPENHREF CONTENT CLOSEHREF CONTENT CLOSEHEADER OPENHEADER OPENHREF CONTENT CLOSEHREF CLOSEHEADER OPENHEADER CONTENT OPENHREF CONTENT CLOSEHREF CLOSEHEADER CLOSEROW OPENROW OPENDATA handlescorer CLOSEDATA OPENDATA skip CLOSEDATA OPENDATA handlescorer CLOSEDATA CLOSEROW CLOSEPOINTTABLE FRIGHTDIV handledetails SEPARATOR handlematches
@@ -131,12 +143,14 @@ def p_handlematches(p):
     if len(p)>1:
         matchlist.append(p[7]+" "+p[13]+" "+p[19])
 
+# grammar to handle scorer details and store it
 def p_handlescorer(p):
     '''handlescorer : skip OPENLIST OPENHREF CONTENT CLOSEHREF skip CLOSELIST handlescorer
                     | '''
     if len(p)>1:
         scorerlist.append(p[4])
 
+# grammar to handle stadium details and store it
 def p_handledetails(p):
     '''handledetails : OPENHREF CONTENT CLOSEHREF CONTENT OPENHREF CONTENT CLOSEHREF CONTENT CONTENT OPENHREF CONTENT CLOSEHREF skip'''
     # print(p[2],p[4],p[6],p[8],p[9],p[11])
@@ -170,7 +184,7 @@ def p_skip(p):
             | '''
 
 def p_error(p):
-    print('Error at line ', p)
+    # print('Error at line ', p)
     pass
 
 def groupB():
@@ -189,6 +203,7 @@ def groupB():
     lexer.input(data)
     res = parser.parse(data)
     matchlist.reverse()
+    # formatting the data for better and generalized access in the future
     groupBdata = {
         'pointtable' : stagelist,
         'matchlist' : matchlist,

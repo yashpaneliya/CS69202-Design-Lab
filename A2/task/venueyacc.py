@@ -1,3 +1,6 @@
+# Module: venueyacc.py
+# module to build lexer and parser for venue details
+
 import ply.yacc as yacc
 import ply.lex as lex
 
@@ -80,13 +83,13 @@ def t_newline(t):
 def t_error(t):
     t.lexer.skip(1)
 
-# Build the lexer
-
 venue = {}
 
+# grammar to find Venue table
 def p_init(p):
     '''init : before BEGINVENUE skip OPENBODY rows CLOSEBODY'''
 
+# skipping unwanted content
 def p_before(p):
     '''before : CONTENT before
               | OPENHREF before
@@ -99,12 +102,14 @@ def p_before(p):
               | CLOSEDATA before
               | '''
 
+# grammar to handle table rows of stadium table
 def p_rows(p):
     '''rows : OPENROW OPENHEAD CONTENT CLOSEHEAD OPENHEAD CONTENT CLOSEHEAD OPENHEAD CONTENT CLOSEHEAD CLOSEROW rows
             | OPENROW OPENHEAD skip CLOSEHEAD columns CLOSEROW rows
             | OPENROW columns CLOSEROW rows
             | '''
 
+# grammar to extract stadium details and store it
 def p_columns(p):
     '''columns : OPENDATA OPENHREF CONTENT CLOSEHREF CLOSEDATA OPENDATA CONTENT skip CLOSEDATA'''
     if len(p)==10:

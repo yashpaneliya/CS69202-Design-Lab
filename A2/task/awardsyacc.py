@@ -1,6 +1,9 @@
+# Module: awardsyacc.py
+# module to extract award details from fifa.html
 import ply.yacc as yacc
 import ply.lex as lex
 
+# tokens to be recognized
 tokens = [
     'BEGINAWARDS',
     'OPENBODY', 'CLOSEBODY', 'OPENROW', 'CLOSEROW', 'OPENHEAD', 'CLOSEHEAD', 'OPENDATA','CLOSEDATA',
@@ -92,6 +95,7 @@ def p_before(p):
               | CLOSEDATA before
               | '''
 
+# handle the title of the award
 def p_rows(p):
     '''rows : OPENROW OPENHEAD OPENHREF CONTENT CLOSEHREF CLOSEHEAD OPENHEAD CONTENT CLOSEHEAD OPENHEAD CONTENT CLOSEHEAD CLOSEROW rows
             | OPENROW columns CLOSEROW rows
@@ -102,6 +106,7 @@ def p_rows(p):
     elif len(p) == 9:
         awardlist.append(p[4])
 
+# handle the winners of the award
 def p_columns(p):
     '''columns : OPENDATA OPENHREF CLOSEHREF OPENHREF CONTENT CLOSEHREF CLOSEDATA columns
                | OPENDATA CONTENT CONTENT CLOSEDATA columns
@@ -117,9 +122,9 @@ def p_columns(p):
 def p_error(p):
     pass
 
-
-
+# function to build lexer and parse the fifa.html file
 def getAwardsList():
+    # list to store awards and awrdees
     global awardlist
     awardlist = []
     lexer = lex.lex()
@@ -127,6 +132,7 @@ def getAwardsList():
     f_obj = open('fifa.html','r',encoding='utf-8')
     data = f_obj.read()
     res = parser.parse(data)
+    # extracting and formatting the data from the list
     balltype = awardlist[-1]
     ballwinner = awardlist[0:3][::-1]
     boottype = awardlist[-2]
@@ -135,6 +141,7 @@ def getAwardsList():
     otherawards[awardlist[-3]]=awardlist[6]
     otherawards[awardlist[-4]]=awardlist[7]
     otherawards[awardlist[-5]]=awardlist[8]
+    # organizing the data for a better view using dictionary
     winners = {}
     winners[balltype[0]]=ballwinner[0]
     winners[balltype[1]]=ballwinner[1]

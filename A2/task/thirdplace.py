@@ -1,9 +1,15 @@
+# Module: thirdplace.py
+# module to build lexer and parser for third place match
 import ply.yacc as yacc
 import ply.lex as lex
 
+# to store match fixtures
 matchlist = []
+# to store match scorers
 scorerlist = []
+# to store match details (stadium, attendence, referee)
 matchdetails = []
+# to store penalty scorers
 rightpenscorerslist = []
 
 tokens = [
@@ -148,10 +154,11 @@ def t_error(t):
     t.lexer.skip(1)
 
 
+# grammar to find thirdplace stage in the html file
 def p_start(p):
     """start : before OPENTHIRD skip SEPARATOR handlematches CLOSETHIRD"""
 
-
+# grammar to handle each match row and extract match details (score)
 def p_handlematches(p):
     """handlematches : skip OPENTABLE OPENROW OPENHEADER OPENHREF CONTENT CLOSEHREF CONTENT CLOSEHEADER OPENHEADER OPENHREF CONTENT CLOSEHREF CLOSEHEADER OPENHEADER CONTENT OPENHREF CONTENT CLOSEHREF CLOSEHEADER CLOSEROW OPENROW OPENDATA handlescorer CLOSEDATA OPENDATA skip CLOSEDATA OPENDATA handlescorer CLOSEDATA CLOSEROW CLOSEPOINTTABLE FRIGHTDIV handledetails SEPARATOR handlematches
     | OPENMATCHDIV skip OPENTABLE OPENROW OPENHEADER OPENHREF CONTENT CLOSEHREF CONTENT CLOSEHEADER OPENHEADER OPENHREF CONTENT CLOSEHREF CLOSEHEADER OPENHEADER CONTENT OPENHREF CONTENT CLOSEHREF CLOSEHEADER CLOSEROW OPENROW OPENDATA handlescorer CLOSEDATA OPENDATA skip CLOSEDATA OPENDATA handlescorer CLOSEDATA CLOSEROW CLOSEPOINTTABLE FRIGHTDIV handledetails SEPARATOR handlematches
@@ -166,6 +173,7 @@ def p_handlematches(p):
         matchlist.append(p[7] + " " + p[13] + " " + p[20])
 
 
+# grammar to handle scorer details and store it
 def p_handlescorer(p):
     """handlescorer : skip OPENLIST OPENHREF CONTENT CLOSEHREF skip CLOSELIST handlescorer
     |"""
@@ -173,6 +181,7 @@ def p_handlescorer(p):
         scorerlist.append(p[4])
 
 
+# grammar to handle penalty scorer details and store it
 def p_handlepenscorer(p):
     """handlepenscorer : skip OPENLIST CONTENT OPENHREF CONTENT CLOSEHREF skip CLOSELIST handlepenscorer
     |"""
@@ -180,6 +189,7 @@ def p_handlepenscorer(p):
         rightpenscorerslist.append(p[5])
 
 
+# grammar to handle stadium details and store it
 def p_handledetails(p):
     """handledetails : OPENHREF CONTENT CLOSEHREF CONTENT OPENHREF CONTENT CLOSEHREF CONTENT CONTENT OPENHREF CONTENT CLOSEHREF skip"""
     matchdetails.append(
@@ -234,6 +244,7 @@ def thirdPlace():
     data = f.read()
     lexer.input(data)
     res = parser.parse(data)
+    # formatting the data for better and generalized access in the future
     thirdPlaceData = {
         "matchlist": matchlist,
         "1": {

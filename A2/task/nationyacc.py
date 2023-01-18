@@ -116,7 +116,7 @@ def p_skip(p):
             | '''
 
 def p_error(p):
-    print("Syntax error in input! ",p)
+    # print("Syntax error in input! ",p)
     pass
 
 # Build the parser

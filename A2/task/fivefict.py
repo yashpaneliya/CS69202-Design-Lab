@@ -1,4 +1,4 @@
-# PARSER to get last 5 matches
+# Module to get the last 5 matches and the next 5 matches of a team
 
 import ply.lex as lex
 import ply.yacc as yacc
@@ -71,12 +71,14 @@ def t_error(t):
 prevlist = []
 futlist = []
 
+# grammar to find fixtures section
 def p_init(p):
     '''init : before BEGINPREV divs BEGINNEXT futdivs STAFF
             | before BEGINPREV OPENHREF CONTENT CLOSEHREF divs BEGINNEXT OPENHREF CONTENT CLOSEHREF futdivs STAFF
             | before BEGINPREV divs STAFF
             | before BEGINPREV OPENHREF CONTENT CLOSEHREF divs STAFF'''
 
+# grammar to skip unwanted content
 def p_before(p):
     '''before : CONTENT before
               | OPENHREF before
@@ -87,19 +89,23 @@ def p_before(p):
               | CLOSETABLE before
               | '''
 
+# grammar to find fixture table
 def p_divs(p):
     '''divs : OPENDIV anchors OPENTABLE skip CLOSETABLE CLOSEDIV divs
             | '''
 
+# grammar to extract each fixture from table
 def p_anchors(p):
     '''anchors : OPENHREF CONTENT CLOSEHREF CONTENT CONTENT CONTENT OPENHREF CONTENT CLOSEHREF'''
     if len(p) > 1:
         prevlist.append(p[2] + " vs " + p[8])
 
+# grammar to extract next 5 fixtures section
 def p_futdivs(p):
     '''futdivs : OPENDIV futanchors OPENTABLE skip CLOSETABLE CLOSEDIV futdivs
             | '''
 
+# grammar to extract each fixture from table of future
 def p_futanchors(p):
     '''futanchors : OPENHREF CONTENT CLOSEHREF CONTENT CONTENT CONTENT OPENHREF CONTENT CLOSEHREF'''
     if len(p) > 1:
@@ -129,10 +135,12 @@ def getfivefixtures(filename):
     lexer.input(data)
     f.close()
     parser.parse(data)
+    # checking if the list is greater than 5
     if len(prevlist) > 5:
         prevlist = prevlist[-5:]
     if len(futlist) > 5:
         futlist = futlist[:5]
+    # logging the results
     with open('programlogs.txt', 'a', encoding='utf-8') as f:   
         f.write("Five fixtures:\t")
         f.write(str(prevlist))

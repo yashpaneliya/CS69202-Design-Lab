@@ -1,9 +1,15 @@
+# Module: finals.py
+# module to build lexer and parser for final match
 import ply.yacc as yacc
 import ply.lex as lex
 
+# to store match fixtures
 matchlist = []
+# to store match scorers
 scorerlist = []
+# to store match details (stadium, attendence, referee)
 matchdetails = []
+# to store penalty scorers
 rightpenscorerslist = []
 
 tokens = [
@@ -148,10 +154,11 @@ def t_error(t):
     t.lexer.skip(1)
 
 
+# grammar to find thirdplace stage in the html file
 def p_start(p):
     """start : before OPENFINAL skip SEPARATOR handlematches CLOSEFINAL"""
 
-
+# grammar to handle each match row and extract match details (score)
 def p_handlematches(p):
     """handlematches : skip OPENTABLE OPENROW OPENHEADER OPENHREF CONTENT CLOSEHREF CONTENT CLOSEHEADER OPENHEADER OPENHREF CONTENT CLOSEHREF CLOSEHEADER OPENHEADER CONTENT OPENHREF CONTENT CLOSEHREF CLOSEHEADER CLOSEROW OPENROW OPENDATA handlescorer CLOSEDATA OPENDATA skip CLOSEDATA OPENDATA handlescorer CLOSEDATA CLOSEROW CLOSEPOINTTABLE FRIGHTDIV handledetails SEPARATOR handlematches
     | OPENMATCHDIV skip OPENTABLE OPENROW OPENHEADER OPENHREF CONTENT CLOSEHREF CONTENT CLOSEHEADER OPENHEADER OPENHREF CONTENT CLOSEHREF CLOSEHEADER OPENHEADER CONTENT OPENHREF CONTENT CLOSEHREF CLOSEHEADER CLOSEROW OPENROW OPENDATA handlescorer CLOSEDATA OPENDATA skip CLOSEDATA OPENDATA handlescorer CLOSEDATA CLOSEROW CLOSEPOINTTABLE FRIGHTDIV handledetails SEPARATOR handlematches
@@ -165,28 +172,28 @@ def p_handlematches(p):
     elif len(p) > 45:
         matchlist.append(p[7] + " " + p[13] + " " + p[20])
 
-
+# grammar to handle scorer details and store it
 def p_handlescorer(p):
     """handlescorer : skip OPENLIST OPENHREF CONTENT CLOSEHREF skip CLOSELIST handlescorer
     |"""
     if len(p) > 1:
         scorerlist.append(p[4])
 
-
+# grammar to handle penalty scorers (if any)
 def p_handlepenscorer(p):
     """handlepenscorer : skip OPENLIST CONTENT OPENHREF CONTENT CLOSEHREF skip CLOSELIST handlepenscorer
     |"""
     if len(p) > 1:
         rightpenscorerslist.append(p[5])
 
-
+# grammar to handle stadium details and store it
 def p_handledetails(p):
     """handledetails : OPENHREF CONTENT CLOSEHREF CONTENT OPENHREF CONTENT CLOSEHREF CONTENT CONTENT OPENHREF CONTENT CLOSEHREF skip"""
     matchdetails.append(
         p[2] + " " + p[4] + " " + p[6] + " " + p[8] + " " + p[9] + " " + p[11]
     )
 
-
+# grammar to skip unwanted content before final stage
 def p_before(p):
     """before : CONTENT before
     | OPENHREF before
@@ -234,6 +241,7 @@ def final():
     data = f.read()
     lexer.input(data)
     res = parser.parse(data)
+    # formatting the data for better and generalized access in the future
     finalData = {
         "matchlist": matchlist,
         "1": {
@@ -246,5 +254,3 @@ def final():
     }
     f.close()
     return finalData
-
-print(final())
