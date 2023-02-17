@@ -1,0 +1,4 @@
+run:
+	date +%s > _time_$@.txt
+	(cat access_log1.txt | python mapper.py | sort | python combiner.py & cat access_log2.txt | python mapper.py | sort | python combiner.py & cat access_log3.txt | python mapper.py | sort | python combiner.py & cat access_log4.txt | python mapper.py | sort | python combiner.py & cat access_log5.txt | python mapper.py | sort | python combiner.py & cat access_log6.txt | python mapper.py | sort | python combiner.py & cat access_log7.txt | python mapper.py | sort | python combiner.py & cat access_log8.txt | python mapper.py | sort | python combiner.py & cat access_log9.txt | python mapper.py | sort | python combiner.py & cat access_log10.txt | python mapper.py | sort | python combiner.py) | sort | python reducer.py > result.txt
+	echo $$(($$(date +%s)-$$(cat  _time_$@.txt)))
