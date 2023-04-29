@@ -1,0 +1,10 @@
+LINK TO COLAB: (All 3 task trained in one)
+https://colab.research.google.com/drive/1_QQfZ3QD2bFQnGuHU37tPH9mNsNP4qor?usp=sharing
+
+Testing colabs:
+
+1. https://colab.research.google.com/drive/11aLUW4uQWeUhxT6SILeVNd5hnmwPnbP5?usp=sharing
+
+2. https://colab.research.google.com/drive/1MlzwQx1vhmXFXtSDs4JkHnMbGLyUL7Hd?usp=sharing
+
+3. https://colab.research.google.com/drive/1SCqoMJie5bnd53JY0xMy_A0LxAes4mrL?usp=sharing
