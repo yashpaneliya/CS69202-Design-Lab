@@ -1,6 +1,6 @@
 # Abusive Text Classification
 
-## Introduction
+## Problem Statement
 
 This assignment is divided into 3 parts on the basis pf the machine learning model used for classification of abusive text. The first part is the implementation of the model using the KNN algorithm. The second part is the implementation of the model using the LSTM Neural Network. The third part is the implementation of the model using mBert and MURiL.
 
