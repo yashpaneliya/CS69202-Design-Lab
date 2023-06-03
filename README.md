@@ -4,9 +4,9 @@ This repository contains the assignments for the Design Lab course of Spring sem
 
 ## Assignments
 
-Assignment 1: Lex and Yacc for simple calculator [code](/22CS60R70_a1/)
+Assignment 1: Lex and Yacc for simple calculator [code](/Basic%20calculator%20using%20Lex%20and%20Yacc/)
 
-Assignment 2: Web scrapper using Lex and Yacc [code](/A2/Scrapper/)
+Assignment 2: Web scrapper using Lex and Yacc [code](/Web%20scrapper%20using%20Lex%20and%20Yacc/Scrapper/)
 
 Assignment 3: Mapper and Reducer for performing queries on network logs [code](/NoSQL-1/)
 
